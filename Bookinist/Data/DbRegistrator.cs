@@ -29,5 +29,6 @@ internal static class DbRegistrator
                     default:
                         throw new InvalidOperationException($"Тип подключения {type} не поддерживается");
                 }
-            });
+            })
+            .AddTransient<DbInitializer>();
 }
