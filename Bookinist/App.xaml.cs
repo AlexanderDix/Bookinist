@@ -10,12 +10,16 @@ namespace Bookinist;
 public partial class App
 {
     private static IHost _host;
-    private static IHost Host => _host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+    private static IHost Host => _host ??= CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
     public static IServiceProvider Services => _host.Services;
 
-    public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
+    private static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
         .AddServices()
         .AddViewModels();
+
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            .ConfigureServices(ConfigureServices);
 
     protected override async void OnStartup(StartupEventArgs e)
     {
