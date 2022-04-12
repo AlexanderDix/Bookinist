@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Bookinist.Data;
 using Bookinist.Services;
 using Bookinist.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ public partial class App
     public static IServiceProvider Services => _host.Services;
 
     private static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
+        .AddDataBase(host.Configuration.GetSection("Database"))
         .AddServices()
         .AddViewModels();
 
