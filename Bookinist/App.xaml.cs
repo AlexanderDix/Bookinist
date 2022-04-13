@@ -28,7 +28,7 @@ public partial class App
         IHost host = Host;
 
         using (IServiceScope scope = Services.CreateScope())
-            scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
+            await scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync();
 
         base.OnStartup(e);
 

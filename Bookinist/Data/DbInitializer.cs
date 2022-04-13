@@ -30,7 +30,7 @@ internal class DbInitializer
         _logger.LogInformation($"Удаление существующей БД выполнено за {timer.ElapsedMilliseconds} мс");
 
         _logger.LogInformation("Миграция БД...");
-        await _db.Database.MigrateAsync();
+        await _db.Database.MigrateAsync().ConfigureAwait(false);
         _logger.LogInformation($"Миграция БД выполнена за {timer.ElapsedMilliseconds} мс");
 
         if (await _db.Books.AnyAsync()) return;
