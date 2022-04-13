@@ -1,10 +1,15 @@
-﻿using Bookinist.ViewModels.Base;
+﻿using System.Linq;
+using Bookinist.DAL.Entities;
+using Bookinist.Interfaces;
+using Bookinist.ViewModels.Base;
 
 namespace Bookinist.ViewModels.WindowViewModels;
 
 internal class MainWindowViewModel : ViewModel
 {
     #region Fields
+
+    private readonly IRepository<Book> _booksRepository;
 
     #endregion
 
@@ -35,6 +40,13 @@ internal class MainWindowViewModel : ViewModel
     #endregion
 
     #region Constructors
+
+    public MainWindowViewModel(IRepository<Book> booksRepository)
+    {
+        _booksRepository = booksRepository;
+
+        var books = _booksRepository.Items.Take(10).ToArray();
+    }
 
     #endregion
 }

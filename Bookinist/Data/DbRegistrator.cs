@@ -1,4 +1,5 @@
 ﻿using System;
+using Bookinist.DAL;
 using Bookinist.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,10 @@ internal static class DbRegistrator
                 switch (type)
                 {
                     case "MSSQL":
-                        opt.UseSqlServer(configuration.GetConnectionString(type));
+                        opt.UseSqlServer(configuration.GetConnectionString(type), sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.EnableRetryOnFailure();
+                        });
                         break;
                     case "SQLite":
                         opt.UseSqlite(configuration.GetConnectionString(type));
@@ -30,5 +34,6 @@ internal static class DbRegistrator
                         throw new InvalidOperationException($"Тип подключения {type} не поддерживается");
                 }
             })
-            .AddTransient<DbInitializer>();
+            .AddTransient<DbInitializer>()
+            .AddRepositoriesInDb();
 }
