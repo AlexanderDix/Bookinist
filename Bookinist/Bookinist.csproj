@@ -13,6 +13,7 @@
     <Folder Include="Services\Interfaces\" />
     <Folder Include="ViewModels\Base\" />
     <Folder Include="Data\" />
+    <Folder Include="ViewModels\UserControlViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
