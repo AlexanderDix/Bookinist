@@ -7,14 +7,14 @@
         Title="{Binding Title}"
         Width="800" Height="450">
     <DockPanel>
-        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+        <Menu IsMainMenu="True">
             <MenuItem Header="Представления">
                 <MenuItem Header="Книги" />
                 <MenuItem Header="Покупатели" />
                 <MenuItem Header="Статистика" />
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar>
             <StatusBarItem>
                 <TextBlock Text="Готов!" />
             </StatusBarItem>
