@@ -9,9 +9,9 @@
     <DockPanel>
         <Menu IsMainMenu="True">
             <MenuItem Header="Представления">
-                <MenuItem Header="Книги" />
-                <MenuItem Header="Покупатели" />
-                <MenuItem Header="Статистика" />
+                <MenuItem Header="Книги" Command="{Binding ShowBooksViewCommand}" />
+                <MenuItem Header="Покупатели" Command="{Binding ShowBuyersViewCommand}" />
+                <MenuItem Header="Статистика" Command="{Binding ShowStatisticViewCommand}" />
             </MenuItem>
         </Menu>
         <StatusBar>
@@ -20,6 +20,8 @@
             </StatusBarItem>
         </StatusBar>
 
-        <Grid />
+        <Grid>
+            <ContentControl Content="{Binding CurrentModel}" />
+        </Grid>
     </DockPanel>
 </Window>
