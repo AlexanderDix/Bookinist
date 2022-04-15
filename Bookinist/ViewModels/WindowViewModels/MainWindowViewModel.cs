@@ -16,6 +16,7 @@ internal class MainWindowViewModel : ViewModel
     private readonly IRepository<Seller> _sellers;
     private readonly IRepository<Buyer> _buyers;
     private readonly ISalesService _salesService;
+    private readonly IRepository<Deal> _deals;
 
     #endregion
 
@@ -100,7 +101,7 @@ internal class MainWindowViewModel : ViewModel
     private void OnShowStatisticViewCommandExecuted(object p)
     {
         CurrentModel = new StatisticViewModel(
-            _books, _buyers, _sellers);
+            _books, _buyers, _sellers, _deals);
     }
 
     #endregion
@@ -127,12 +128,13 @@ internal class MainWindowViewModel : ViewModel
     #region Constructors
 
     public MainWindowViewModel(IRepository<Book> books, IRepository<Seller> sellers,
-        IRepository<Buyer> buyers, ISalesService salesService)
+        IRepository<Buyer> buyers, ISalesService salesService, IRepository<Deal> deals)
     {
         _books = books;
         _sellers = sellers;
         _buyers = buyers;
         _salesService = salesService;
+        _deals = deals;
     }
 
     #endregion
