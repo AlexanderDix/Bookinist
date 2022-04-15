@@ -7,11 +7,23 @@ internal abstract class Command : ICommand
 {
     public event EventHandler CanExecuteChanged
     {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
+        add
+        {
+            CommandManager.RequerySuggested += value;
+            CanExecuteChangedHandlers += value;
+        }
+        remove
+        {
+            CommandManager.RequerySuggested -= value;
+            CanExecuteChangedHandlers -= value;
+        }
     }
 
     private bool _executable = true;
+    private event EventHandler CanExecuteChangedHandlers;
+
+    protected virtual void OnCanExecuteChanged(EventArgs e = null) =>
+        CanExecuteChangedHandlers?.Invoke(this, e ?? EventArgs.Empty);
 
     public bool Executable
     {
