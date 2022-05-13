@@ -3,13 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:Bookinist.ViewModels.UserControlViewModels"
+             xmlns:entities="clr-namespace:Bookinist.DAL.Entities;assembly=Bookinist.DAL"
+             d:DataContext="{d:DesignInstance {x:Type vm:BooksViewModel}, IsDesignTimeCreatable=True}"
              d:DesignWidth="800" d:DesignHeight="450">
     <Grid>
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Книги"
-                   FontSize="30" FontWeight="Bold">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="1" />
-            </TextBlock.Effect>
-        </TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="Книги">
+            <DockPanel>
+                <TextBox DockPanel.Dock="Top" Text="{Binding BooksFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <ListBox MinWidth="140" ItemsSource="{Binding BooksView}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="entities:Book">
+                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Category.Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

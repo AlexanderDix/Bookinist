@@ -1,13 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Bookinist.DAL.Entities;
+﻿using Bookinist.DAL.Entities;
 using Bookinist.Infrastructure.Commands;
 using Bookinist.Interfaces;
 using Bookinist.Models;
 using Bookinist.ViewModels.Base;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Bookinist.ViewModels.UserControlViewModels;
 
@@ -72,17 +72,20 @@ internal class StatisticViewModel : ViewModel
 
         var bestsellersQuery = deals
             .GroupBy(b => b.Book.Id)
-            .Select(d => new {BookId = d.Key, Count = d.Count()})
+            .Select(d => new {BookId = d.Key, Count = d.Count(), Sum = d.Sum(deal => deal.Price)})
             .OrderByDescending(d => d.Count)
             .Take(5)
             .Join(books,
                 deal => deal.BookId,
                 book => book.Id,
-                (deal, book) => new BestsellerInfo() {Book = book, SellCount = deal.Count});
+                (deal, book) => new BestsellerInfo()
+                {
+                    Book = book,
+                    SellCount = deal.Count,
+                    SumCost = deal.Sum
+                });
 
-        Bestsellers.Clear();
-        foreach (BestsellerInfo bestseller in await bestsellersQuery.ToArrayAsync())
-            Bestsellers.Add(bestseller);
+        Bestsellers.AddClear(await bestsellersQuery.ToArrayAsync());
     }
 
     #endregion

@@ -7,4 +7,6 @@ internal class BestsellerInfo
     public Book Book { get; set; }
 
     public int SellCount { get; set; }
+
+    public decimal SumCost { get; set; }
 }
