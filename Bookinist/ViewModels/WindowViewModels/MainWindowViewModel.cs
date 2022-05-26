@@ -17,6 +17,7 @@ internal class MainWindowViewModel : ViewModel
     private readonly IRepository<Buyer> _buyers;
     private readonly ISalesService _salesService;
     private readonly IRepository<Deal> _deals;
+    private readonly IUserDialog _userDialog;
 
     #endregion
 
@@ -66,7 +67,7 @@ internal class MainWindowViewModel : ViewModel
 
     private void OnShowBooksViewCommandExecuted(object p)
     {
-        CurrentModel = new BooksViewModel(_books);
+        CurrentModel = new BooksViewModel(_books, _userDialog);
     }
 
     #endregion
@@ -127,14 +128,20 @@ internal class MainWindowViewModel : ViewModel
 
     #region Constructors
 
-    public MainWindowViewModel(IRepository<Book> books, IRepository<Seller> sellers,
-        IRepository<Buyer> buyers, ISalesService salesService, IRepository<Deal> deals)
+    public MainWindowViewModel(
+        IRepository<Book> books, 
+        IRepository<Seller> sellers,
+        IRepository<Buyer> buyers, 
+        ISalesService salesService, 
+        IRepository<Deal> deals,
+        IUserDialog userDialog)
     {
         _books = books;
         _sellers = sellers;
         _buyers = buyers;
         _salesService = salesService;
         _deals = deals;
+        _userDialog = userDialog;
     }
 
     #endregion

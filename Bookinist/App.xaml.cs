@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Bookinist.Data;
 using Bookinist.Services;
@@ -10,11 +11,29 @@ namespace Bookinist;
 
 public partial class App
 {
-    public static bool IsDesignTime { get; private set; } = true;
+    #region Fields
 
     private static IHost _host;
+
+    #endregion
+
+    #region Properties
+
     private static IHost Host => _host ??= CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
+
     public static IServiceProvider Services => _host.Services;
+
+    public static Window ActiveWindow => Current.Windows
+        .OfType<Window>()
+        .FirstOrDefault(w => w.IsActive);
+
+    public static Window FocusedWindow => Current.Windows
+        .OfType<Window>()
+        .FirstOrDefault(w => w.IsFocused);
+
+    public static Window CurrentWindow => FocusedWindow ?? ActiveWindow;
+
+    public static bool IsDesignTime { get; private set; } = true;
 
     private static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
         .AddDataBase(host.Configuration.GetSection("Database"))
@@ -24,6 +43,10 @@ public partial class App
     private static IHostBuilder CreateHostBuilder(string[] args) =>
         Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
             .ConfigureServices(ConfigureServices);
+
+    #endregion
+
+    #region Methods
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -45,4 +68,6 @@ public partial class App
 
         using (Host) await Host.StopAsync();
     }
+
+    #endregion
 }
